@@ -1,5 +1,5 @@
 from utils.model import users
-from utils.controller import get_user_info, add_user, remove_user
+from utils.controller import get_user_info, add_user, remove_user, update_user
 
 
 def main():
@@ -21,7 +21,8 @@ def main():
             add_user(users)
         if choice == '3':
             remove_user(users)
-
+        if choice == '4':
+            update_user(users)
     get_user_info(users)
 
 
