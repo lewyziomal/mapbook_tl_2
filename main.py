@@ -47,7 +47,7 @@ def add_user():
     surname = entry_nazwisko.get()
     location = entry_miejscowosc.get()
     post = entry_liczba_postow.get()
-    users.append({"name": name, "surmane:": surname, "location": location, "posts": post})
+    users.append({"name": name, "surname": surname, "location": location, "posts": post})
     print(users)
     show_users()
 
@@ -61,8 +61,7 @@ def add_user():
 def show_users():
     listbox_lista_obiektow.delete(0, END)
     for idx, user in enumerate(users):
-        listbox_lista_obiektow.insert(idx,
-                                      f'{idx + 1} {user['name']} {user["surmane:"]} {user["location"]} {user["posts"]}')
+        listbox_lista_obiektow.insert(idx,f'{idx + 1} {user['name']} {user["surname"]} {user["location"]} {user["posts"]}')
 
 
 def remove_user():
@@ -74,7 +73,7 @@ def remove_user():
 
 def edit_user():
     i = listbox_lista_obiektow.index(ACTIVE)
-    print(i)
+    print(users[i])
     entry_imie.insert(0, users[i]['name'])
     entry_nazwisko.insert(0, users[i]['surname'])
     entry_miejscowosc.insert(0, users[i]['location'])
@@ -91,12 +90,21 @@ def update_user(i):
     users[i]['surname'] = surname
     users[i]['location'] = location
     users[i]['posts'] = post
+    show_users()
     button_dodaj_uzytkownika.config(text="Dodaj", command=add_user)
+    entry_imie.delete(0, END)
+    entry_nazwisko.delete(0, END)
+    entry_miejscowosc.delete(0, END)
+    entry_liczba_postow.delete(0, END)
+    entry_imie.focus()
 
+def show_user_details():
+    i = listbox_lista_obiektow.index(ACTIVE)
+    label_imie_szczegoly_uzytkwnika_wartosc.config(text=users[i]['name'])
+    label_nazwisko_szczegoly_uzytkwnika_wartosc.config(text=users[i]['surname'])
+    label_miejscowosc_szczegoly_uzytkwnika_wartosc.config(text=users[i]['location'])
+    label_liczba_postow_szczegoly_uzytkwnika_wartosc.config(text=users[i]['posts'])
 
-
-
-def delete_user():
 
 
 root = Tk()
@@ -122,7 +130,7 @@ label_lista_obiektow.grid(row=0, column=0, )
 listbox_lista_obiektow = Listbox(ramka_lista_obiektow)
 listbox_lista_obiektow.grid(row=1, column=0, columnspan=3)
 
-button_pokaz_szczegoly = Button(ramka_lista_obiektow, text='Pokaż szczególy')
+button_pokaz_szczegoly = Button(ramka_lista_obiektow, text='Pokaż szczególy',command=show_user_details)
 button_pokaz_szczegoly.grid(row=3, column=0)
 
 button_usun_obiekt = Button(ramka_lista_obiektow, text='Usuń znajomego', command=remove_user)
